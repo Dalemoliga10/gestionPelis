@@ -1,0 +1,20 @@
+<div class="container d-flex justify-content-center align-items-center vh-100">
+  <div class="card shadow-lg p-4" style="width: 350px;">
+    <div class="card-body text-center">
+      <h4 class="mb-4">Passwd</h4>
+
+      <mat-form-field class="w-100 mb-3">
+        <mat-label>Contraseña</mat-label>
+        <input type="text" matInput placeholder="contraseña" [(ngModel)]="passwd">
+      </mat-form-field>
+
+      <button mat-button mat-flat-button color="primary" class="w-100" (click)="onLoginPasswd()">
+        <mat-icon>lock</mat-icon> Completar Login
+      </button>
+
+      <div class="mt-4">
+        <a routerLink="/auth/new-account">No tengo cuenta de usuario</a>
+      </div>
+    </div>
+  </div>
+</div>
