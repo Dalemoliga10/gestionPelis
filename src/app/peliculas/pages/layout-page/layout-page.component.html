@@ -1,4 +1,49 @@
-<p>layout-page works!</p>
-<div class="container p-2">
-  <router-outlet></router-outlet>
-</div>
+<mat-sidenav-container fullscreen>
+
+  <mat-sidenav #sidenav mode="push" [ngStyle]="{ width:'250px' }">
+    <mat-toolbar color="warn">
+      <span>menu</span>
+      <span class="spacer"></span>
+      <button mat-icon-button (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+    </mat-toolbar>
+
+
+    <mat-nav-list>
+      <button *ngIf="userRole === 'admin'" mat-button (click)="redireccion('Crud'); sidenav.toggle()">
+        <mat-icon matListItemIcon>person</mat-icon>
+        CRUD
+      </button>
+
+      <button mat-button mat-button (click)= "redireccion('Favorito'); sidenav.toggle()">
+        <mat-icon matListItemIcon>star</mat-icon>
+        favoritos
+      </button>
+
+      <button mat-button mat-button (click)= "redireccion('Buscar'); sidenav.toggle()">
+        <mat-icon matListItemIcon>search</mat-icon>
+        Buscar
+      </button>
+    </mat-nav-list>
+  </mat-sidenav>
+
+
+
+  <mat-toolbar color="primary">
+    <button mat-icon-button (click)="sidenav.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span class="spacer"></span>
+
+
+
+    <button mat-button (click)="onLogout()">
+      Logout
+    </button>
+  </mat-toolbar>
+
+  <div class="container p-2">
+    <router-outlet></router-outlet>
+  </div>
+</mat-sidenav-container>

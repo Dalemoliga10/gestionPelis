@@ -1,0 +1,37 @@
+<div class="container mt-5">
+  <h2 class="text-center mb-4">Usuarios</h2>
+
+  <!-- Tabla de usuarios -->
+  <table class="table table-bordered table-striped">
+    <thead class="thead-dark">
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Rol</th>
+        <th>Correo</th>
+        <th>Contraseña</th>
+        <th>Token</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let usuario of usuarios | async">
+        <td>{{ usuario.id_usuario }}</td>
+        <td>{{ usuario.nombre }}</td>
+        <td>{{ usuario.rol }}</td>
+        <td>{{ usuario.correo }}</td>
+        <td>{{ usuario.contrasena }}</td>
+        <td>{{ usuario.token }}</td>
+        <!-- Columna de acciones con 2 botones -->
+        <td>
+          <button class="btn btn-primary btn-sm mr-2">Editar</button>
+          <button class="btn btn-danger btn-sm" (click)="onDeleteHero(usuario.id_usuario)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="text-center mb-4">
+    <button class="btn btn-success btn-sm">Añadir</button>
+  </div>
+</div>

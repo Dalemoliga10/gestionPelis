@@ -3,11 +3,13 @@ import { User } from '../interfaces/user.interface';
 import { environment } from 'src/environments/environment.prod';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map, Observable, of, tap, throwError } from 'rxjs';
+import { Router } from 'express';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+
   private baseUrl = "localhost:3000";
   private user?: User;
 
@@ -34,6 +36,7 @@ export class AuthService {
       .pipe(
         map(user => { //Si encuentra usuario, recoge en localStorage el email y el token
           localStorage.setItem('token', user.token);
+          localStorage.setItem('rol', user.rol)
           return !!user; // Devuelve true si encontró usuario, false si no
         }),
         catchError(err => {
@@ -41,6 +44,10 @@ export class AuthService {
           return of(false); // En caso de error, retorna false
         })
       );
+  }
+
+  logout() {
+    localStorage.clear()
   }
 
 }

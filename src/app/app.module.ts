@@ -6,7 +6,6 @@ import { AppComponent } from './app.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { PeliPageComponent } from './peliculas/pages/peli-page/peli-page.component';
 import { LayoutPeliPageComponent } from './peliculas/pages/layout-page/layout-page.component';
 
 @NgModule({

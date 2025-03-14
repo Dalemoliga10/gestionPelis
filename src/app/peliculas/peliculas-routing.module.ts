@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PeliPageComponent } from './pages/peli-page/peli-page.component';
 import { LayoutPeliPageComponent } from './pages/layout-page/layout-page.component';
+import { CrudPageComponent } from './pages/crud-page/crud-page/crud-page.component';
 
 //Asi creamos rutas, añadiendo en el Routes
 const routes: Routes = [
@@ -11,8 +12,8 @@ const routes: Routes = [
     component:LayoutPeliPageComponent,
     children:[
       {path: 'listaPeli', component: PeliPageComponent},
+      {path: 'crud', component: CrudPageComponent},
       {path: '**', redirectTo: "listaPeli"}
-
     ]
 
   }

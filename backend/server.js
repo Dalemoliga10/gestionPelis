@@ -77,6 +77,37 @@ app.get('/api/passwd', (req, res) => {
   });
 });
 
+app.get('/api/usuarios/todos', (req, res) => {
+  const query = 'SELECT * FROM usuarios';
+
+  db.query(query, (err, results) => {
+    if (err) {
+      return res.status(500).json({ message: 'Error en la base de datos' });
+    }
+    return res.status(200).json(results); // Devuelve todos los usuarios encontrados
+  });
+});
+
+app.delete('/api/usuarios/:id', (req, res) => {
+  const { id } = req.params;  // Obtenemos el id del parámetro de la URL
+
+  const query = 'DELETE FROM usuarios WHERE id_usuario = ?';
+
+  db.query(query, [id], (err, results) => {
+    if (err) {
+      return res.status(500).json({ message: 'Error en la base de datos' });
+    }
+
+    if (results.affectedRows === 0) {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+
+    return res.status(200).json({ message: 'Usuario eliminado con éxito' });
+  });
+});
+
+
+
 // Iniciar el servidor
 app.listen(3000, () => {
   console.log('Servidor corriendo en http://localhost:3000');
