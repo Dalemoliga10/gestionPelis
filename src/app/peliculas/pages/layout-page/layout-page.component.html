@@ -1,6 +1,6 @@
 <mat-sidenav-container fullscreen>
 
-  <mat-sidenav #sidenav mode="push" [ngStyle]="{ width:'250px' }">
+  <mat-sidenav #sidenav mode="push" [ngStyle]="{ width:'150px' }">
     <mat-toolbar color="warn">
       <span>menu</span>
       <span class="spacer"></span>
@@ -11,9 +11,15 @@
 
 
     <mat-nav-list>
+
       <button *ngIf="userRole === 'admin'" mat-button (click)="redireccion('Crud'); sidenav.toggle()">
         <mat-icon matListItemIcon>person</mat-icon>
         CRUD
+      </button>
+
+      <button mat-button mat-button (click)= "redireccion('Buscar'); sidenav.toggle()">
+        <mat-icon matListItemIcon>search</mat-icon>
+        Buscar
       </button>
 
       <button mat-button mat-button (click)= "redireccion('Favorito'); sidenav.toggle()">
@@ -21,10 +27,6 @@
         favoritos
       </button>
 
-      <button mat-button mat-button (click)= "redireccion('Buscar'); sidenav.toggle()">
-        <mat-icon matListItemIcon>search</mat-icon>
-        Buscar
-      </button>
     </mat-nav-list>
   </mat-sidenav>
 

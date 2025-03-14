@@ -12,7 +12,7 @@ export class PeliculasService {
 
   //Obtener todos los usuarios
   obtenerUsuarios(): Observable<User[]> {
-    return this.httpClient.get<User[]>('/api/usuarios/todos');
+    return this.httpClient.get<User[]>('http://localhost:3000/usuarios/todos');
   }
 
   //eliminar

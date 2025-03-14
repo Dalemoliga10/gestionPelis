@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { User } from '../interfaces/user.interface';
-import { environment } from 'src/environments/environment.prod';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map, Observable, of, tap, throwError } from 'rxjs';
-import { Router } from 'express';
 
 @Injectable({
   providedIn: 'root'

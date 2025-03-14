@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { User } from 'src/app/peliculas/interfaces/user.interface';
-import { PeliculasService } from '../../../services/peliculas.service';
+import { PeliculasService } from '../../services/peliculas.service';
 import { Observable } from 'rxjs';
 import { ConfirmDialogComponent } from 'src/app/peliculas/components/confirm-dialog/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -36,6 +36,14 @@ export class CrudPageComponent {
     token: new FormControl<string>('')              // token, tipo string
   });
 
+
+  onCreateHero() {
+    this.router.navigate(['/peliculas/new'])
+  }
+
+  onEditHero(id: number) {
+    this.router.navigate(['/peliculas/edit/' + id])
+  }
 
   public onDeleteHero( idEliminar: number){
 

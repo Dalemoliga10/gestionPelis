@@ -3,8 +3,9 @@ const app = express();
 const mysql = require('mysql2');
 const dotenv = require('dotenv');
 const cors = require('cors');  // Importar cors
-
+const crypto = require('crypto');
 dotenv.config();
+app.use(express.json());
 
 // Usar cors para permitir todas las solicitudes (deshabilitar restricciones CORS)
 app.use(cors({
@@ -37,6 +38,29 @@ const db = mysql.createConnection({
   database: "bdq4jbeczeuvey4mum0o"
 });
 
+
+// Endpoint para obtener un usuario por id
+app.get('/api/usuarios/:id', (req, res) => {
+  const id = req.params.id;  // Obtener el id desde la URL
+
+  const query = 'SELECT * FROM usuarios WHERE id_usuario = ?';
+
+  db.query(query, [id], (err, results) => {
+    if (err) {
+      return res.status(500).json({ message: 'Error en la base de datos' });
+    }
+
+    if (results.length > 0) {
+      console.log("envio del usuario")
+      return res.status(200).json(results[0]);  // Devuelve el usuario encontrado
+    } else {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+  });
+});
+
+
+
 // Endpoint para obtener usuarios por correo
 app.get('/api/usuarios', (req, res) => {
   const email = req.query.email;  // Obtener el correo de la query string
@@ -57,6 +81,7 @@ app.get('/api/usuarios', (req, res) => {
   });
 });
 
+//Obtener la contraseña usando un correo electrónico
 app.get('/api/passwd', (req, res) => {
   const email = req.query.email;  // Obtener el correo de la query string
   const passwd = req.query.passwd;
@@ -77,7 +102,8 @@ app.get('/api/passwd', (req, res) => {
   });
 });
 
-app.get('/api/usuarios/todos', (req, res) => {
+//Para el crud: Obtener todos los usuarios
+app.get('/usuarios/todos', (req, res) => {
   const query = 'SELECT * FROM usuarios';
 
   db.query(query, (err, results) => {
@@ -88,6 +114,7 @@ app.get('/api/usuarios/todos', (req, res) => {
   });
 });
 
+//Obtener un usuario en base a la id
 app.delete('/api/usuarios/:id', (req, res) => {
   const { id } = req.params;  // Obtenemos el id del parámetro de la URL
 
@@ -106,6 +133,65 @@ app.delete('/api/usuarios/:id', (req, res) => {
   });
 });
 
+// Ruta para agregar un usuario
+app.post('/api/usuarios', (req, res) => {
+  const { id_usuario, nombre, apellidos, rol, correo, contrasena } = req.body;
+
+  // Reemplazar undefined con null
+  const values = [
+    id_usuario !== undefined ? id_usuario : 0,
+    nombre !== undefined ? nombre : "",
+    apellidos !== undefined ? apellidos : "",
+    rol !== undefined ? rol : "",
+    correo !== undefined ? correo : "",
+    contrasena !== undefined ? contrasena : "123",
+    crypto.randomBytes(16).toString('hex') // Generamos el token
+  ];
+
+  // Consulta SQL
+  const query = `
+    INSERT INTO usuarios (id_usuario, nombre, apellidos, rol, correo, contrasena, token)
+    VALUES (?, ?, ?, ?, ?, ?, ?);
+  `;
+
+  // Ejecutar la consulta con los valores
+  db.execute(query, values, (err, result) => {
+    if (err) {
+      console.error('Error al agregar usuario:', err);
+      return res.status(500).json({ message: 'Error al agregar usuario', error: err });
+    }
+    res.status(201).json({ message: 'Usuario agregado con éxito', result });
+  });
+});
+
+
+// Endpoint para modificar un usuario por id
+app.put('/api/usuarios/id', (req, res) => {
+  const id = req.query.id;  // Obtener el id de la query string
+  const { nombre, apellidos, rol, correo, contrasena } = req.body;  // Obtener los datos del cuerpo de la solicitud
+
+  if (!nombre || !apellidos || !rol || !correo || !contrasena) {
+    return res.status(400).json({ message: 'Todos los campos son obligatorios' });
+  }
+
+  const query = `
+    UPDATE usuarios
+    SET nombre = ?, apellidos = ?, rol = ?, correo = ?, contrasena = ?
+    WHERE id_usuario = ?
+  `;
+
+  db.query(query, [nombre, apellidos, rol, correo, contrasena, id], (err, results) => {
+    if (err) {
+      return res.status(500).json({ message: 'Error en la base de datos' });
+    }
+
+    if (results.affectedRows > 0) {
+      return res.status(200).json({ message: 'Usuario actualizado correctamente' });
+    } else {
+      return res.status(404).json({ message: 'Usuario no encontrado o no se realizaron cambios' });
+    }
+  });
+});
 
 
 // Iniciar el servidor
