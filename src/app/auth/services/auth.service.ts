@@ -48,4 +48,20 @@ export class AuthService {
     localStorage.clear()
   }
 
+
+  checkAutentication(): Observable<boolean>{
+    if(!localStorage.getItem('token')){
+
+      return of(false);
+    }
+    const token = localStorage.getItem('token');
+
+    return this.httpClient.get<Usuario>(`${this.baseUrl}/api/usuarios/${token}`)
+    .pipe(
+      tap(user => this.Usuario = user),
+      map(user => !!user && user.token === token), // Compara el token recibido con el esperado
+      catchError(err => of(false))
+    );
+  }
+
 }

@@ -6,6 +6,7 @@
     <div class="form-group mb-4">
       <label for="nombre" class="text-center w-100">Nombre</label>
       <input type="text" id="nombre" formControlName="nombre" class="form-control">
+      <!-- Si el nombre es invaido y ha sido modificado: -->
       <small class="text-danger" *ngIf="userForm.get('nombre')?.invalid && userForm.get('nombre')?.touched">
         El nombre es obligatorio y debe tener al menos 3 caracteres.
       </small>

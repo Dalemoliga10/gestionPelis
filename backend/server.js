@@ -193,6 +193,25 @@ app.put('/api/usuarios/id', (req, res) => {
   });
 });
 
+// Endpoint para obtener un usuario por id
+app.get('/api/usuarios/:token', (req, res) => {
+  const id = req.params.token;  // Obtener el token desde la URL
+
+  const query = 'SELECT * FROM usuarios WHERE token = ?';
+
+  db.query(query, [id], (err, results) => {
+    if (err) {
+      return res.status(500).json({ message: 'Error en la base de datos' });
+    }
+
+    if (results.length > 0) {
+      console.log("envio del roken")
+      return res.status(200).json(results[0]);  // Devuelve el usuario encontrado
+    } else {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+  });
+});
 
 // Iniciar el servidor
 app.listen(3000, () => {

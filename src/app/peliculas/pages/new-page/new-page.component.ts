@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from '../../interfaces/user.interface';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-new-page',
@@ -10,17 +11,21 @@ import { User } from '../../interfaces/user.interface';
 })
 export class NewPageComponent {
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(
+    private route: ActivatedRoute, // Para obtener parámetros de la URL
+    private httpClient: HttpClient, // Para hacer las solicitudes HTTP
+    private fb: FormBuilder,
+    private router: Router // Para crear el formulario reactivo
+  ) {}
 
-  public userForm = new FormGroup({
-    id_usuario: new FormControl<number>(0),         // id_usuario, tipo número
-    nombre: new FormControl<string>(''),            // nombre, tipo string
-    apellidos: new FormControl<string>(''),         // apellidos, tipo string
-    rol: new FormControl<string>(''),               // rol, tipo string
-    correo: new FormControl<string>(''),            // correo, tipo string
-    contrasena: new FormControl<string>(''),        // contrasena, tipo string
+  // Crear el formulario reactivo
+  userForm = this.fb.group({
+    nombre: ['', [Validators.required, Validators.minLength(3)]], //Tamaño minimo
+    apellidos: ['', [Validators.required, Validators.minLength(3)]],//Tamaño minimo
+    rol: ['', [Validators.required]],//Tamaño Obligatorio
+    correo: ['', [Validators.required, Validators.email]], //Tamaño obligatorio + ser un emai con @
+    contrasena: ['', [Validators.required, Validators.minLength(6)]]//Tamaño minimo
   });
-
 
   //Creacion del usuario
   onSubmit() {
