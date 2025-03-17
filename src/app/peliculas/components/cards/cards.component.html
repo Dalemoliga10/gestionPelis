@@ -1,0 +1,41 @@
+<!-- Nos permite crear una carta por cada peli encontrada -->
+<mat-card class="card">
+  <mat-card-header>
+    <mat-card-title>{{ peli.title }}</mat-card-title>
+    <mat-card-subtitle>Estreno: {{ peli.release_date }}</mat-card-subtitle>
+  </mat-card-header>
+
+  <img
+    mat-card-image
+    [src]="'https://image.tmdb.org/t/p/w500' + peli.poster_path"
+    [alt]="peli.title"
+  >
+
+  <mat-card-content class="mt-2">
+    <p>{{ peli.adult }}</p>
+  </mat-card-content>
+
+  <mat-divider></mat-divider>
+
+  <mat-card-actions>
+    <button mat-button mat-raised color="primary" (click)="detalles(peli.id)">
+      <mat-icon>info</mat-icon>
+      Detalles
+    </button>
+  </mat-card-actions>
+
+</mat-card>
+
+<style>
+  .card {
+    width: 35%; /* Hace que la card ocupe todo el ancho disponible */
+    margin-bottom: 1rem; /* Añade un espacio debajo de la card */
+    margin-left: 4rem;
+  }
+
+  /* Asegura que el tamaño de la imagen se ajuste al tamaño de la card */
+  mat-card-image {
+    max-height: 300px;
+    object-fit: cover;
+  }
+</style>

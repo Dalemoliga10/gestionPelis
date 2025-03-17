@@ -11,6 +11,9 @@ import { CrudPageComponent } from './pages/crud-page/crud-page.component';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { NewPageComponent } from './pages/new-page/new-page.component';
 import { EditPageComponent } from './pages/edit-page/edit-page.component';
+import { CardsComponent } from './components/cards/cards.component';
+import { SearchPageComponent } from './pages/search-page/search-page.component';
+import { InfoPageComponent } from './pages/info-page/info-page.component';
 
 
 @NgModule({
@@ -20,7 +23,10 @@ import { EditPageComponent } from './pages/edit-page/edit-page.component';
     CrudPageComponent,
     ConfirmDialogComponent,
     NewPageComponent,
-    EditPageComponent
+    EditPageComponent,
+    CardsComponent,
+    SearchPageComponent,
+    InfoPageComponent
   ],
   imports: [
     CommonModule,

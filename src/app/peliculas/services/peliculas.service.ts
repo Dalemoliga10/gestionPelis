@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, map, Observable, of } from 'rxjs';
 import { User } from '../interfaces/user.interface';
+import { Pelicula } from '../interfaces/pelicula.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class PeliculasService {
 
   //Obtener todos los usuarios
   obtenerUsuarios(): Observable<User[]> {
-    return this.httpClient.get<User[]>('http://localhost:3000/usuarios/todos');
+    return this.httpClient.get<User[]>('http://localhost:3000/usuarios/todos'); //Problema que he tenido, se me ha pisado
   }
 
   //eliminar
@@ -23,6 +24,10 @@ export class PeliculasService {
         catchError(error => of(false))
       );
   }
+
+
+
+
 
 
 }

@@ -11,7 +11,7 @@
 
 
     <mat-nav-list>
-
+      <!-- CRUD solo si es admin -->
       <button *ngIf="userRole === 'admin'" mat-button (click)="redireccion('Crud'); sidenav.toggle()">
         <mat-icon matListItemIcon>person</mat-icon>
         CRUD

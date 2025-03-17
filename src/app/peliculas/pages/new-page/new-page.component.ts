@@ -22,13 +22,14 @@ export class NewPageComponent {
   });
 
 
+  //Creacion del usuario
   onSubmit() {
     if (this.userForm.valid) {
       const newUser: User = this.userForm.value as User;
 
       console.log(newUser);
 
-      this.httpClient.post<User>('http://localhost:3000/api/usuarios', newUser).subscribe({
+      this.httpClient.post<User>('http://localhost:3000/api/usuarios', newUser).subscribe({ //Llamada de api
         next: (response) => {
           console.log('Usuario añadido:', response);
           this.userForm.reset(); // Limpiar formulario

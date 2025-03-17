@@ -1,0 +1,26 @@
+<h1>Listado de Películas</h1>
+
+<mat-divider></mat-divider>
+
+<!-- Barra de búsqueda -->
+<div class="search-bar mb-4 d-flex justify-content-center">
+  <mat-form-field class="w-50">
+    <mat-label>Buscar Películas</mat-label>
+    <input matInput [(ngModel)]="searchQuery" (keyup.enter)="searchPeliculas(searchQuery)" placeholder="Ingresa el título de la película">
+  </mat-form-field>
+</div>
+
+
+<!-- Listado de películas, llama a las cards -->
+<div class="container">
+  <div class="row mb-8" style="gap: 3px;">
+    <div *ngFor="let movie of listaPelis"
+      class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex p-3">
+      <app-cards [peli]="movie"></app-cards>
+    </div>
+  </div>
+</div>
+
+
+
+

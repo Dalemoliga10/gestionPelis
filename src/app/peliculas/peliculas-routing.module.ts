@@ -5,6 +5,8 @@ import { LayoutPeliPageComponent } from './pages/layout-page/layout-page.compone
 import { CrudPageComponent } from './pages/crud-page/crud-page.component';
 import { NewPageComponent } from './pages/new-page/new-page.component';
 import { EditPageComponent } from './pages/edit-page/edit-page.component';
+import { SearchPageComponent } from './pages/search-page/search-page.component';
+import { InfoPageComponent } from './pages/info-page/info-page.component';
 
 //Asi creamos rutas, añadiendo en el Routes
 const routes: Routes = [
@@ -16,7 +18,9 @@ const routes: Routes = [
       {path: 'listaPeli', component: PeliPageComponent},
       {path: 'crud', component: CrudPageComponent},
       {path: 'new', component: NewPageComponent},
+      { path: 'search', component: SearchPageComponent },
       { path: 'edit/:id', component: EditPageComponent },
+      { path: 'detalle/:id', component: InfoPageComponent }, // Ruta para los detalles de la película
       {path: '**', redirectTo: "listaPeli"}
     ]
 

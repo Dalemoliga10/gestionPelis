@@ -1,0 +1,19 @@
+<!-- Si tiene una peli, saca los detalles de ella -->
+<div *ngIf="PeliculaDetails" class="container mt-4">
+  <div class="row">
+    <div class="col-md-4">
+      <img class="img-fluid rounded" [src]="'https://image.tmdb.org/t/p/w500' + PeliculaDetails.poster_path" [alt]="PeliculaDetails.title">
+    </div>
+    <div class="col-md-8">
+      <h1>{{ PeliculaDetails.title }}</h1>
+      <h4>{{ PeliculaDetails.original_title }} ({{ PeliculaDetails.release_date | date:'yyyy' }})</h4>
+      <p><strong>Idioma original:</strong> {{ PeliculaDetails.original_language }}</p>
+      <p><strong>Popularidad:</strong> {{ PeliculaDetails.popularity }}</p>
+      <p><strong>Puntaje:</strong> {{ PeliculaDetails.vote_average }} / 10 ({{ PeliculaDetails.vote_count }} votos)</p>
+      <p><strong>Sinopsis:</strong> {{ PeliculaDetails.overview }}</p>
+    </div>
+    <button mat-button color="accent" routerLink="/peliculas/search">
+      <mat-icon>arrow_back</mat-icon> Volver al buscador
+    </button>
+  </div>
+</div>

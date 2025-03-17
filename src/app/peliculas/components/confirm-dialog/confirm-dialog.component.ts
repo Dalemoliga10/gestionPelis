@@ -1,4 +1,5 @@
-import { User } from './../../../auth/interfaces/user.interface';
+// Dialogo de confirmación antes de borrar
+import { Usuario } from './../../../auth/interfaces/user.interface';
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
@@ -11,7 +12,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 export class ConfirmDialogComponent {
 
   constructor(public dialogRef: MatDialogRef<ConfirmDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: User,
+    @Inject(MAT_DIALOG_DATA) public data: Usuario,
   ){}
 
   onNoClick():void{
