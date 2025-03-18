@@ -14,6 +14,7 @@ import { EditPageComponent } from './pages/edit-page/edit-page.component';
 import { CardsComponent } from './components/cards/cards.component';
 import { SearchPageComponent } from './pages/search-page/search-page.component';
 import { InfoPageComponent } from './pages/info-page/info-page.component';
+import { FavoritosPageComponent } from './pages/favoritos-page/favoritos-page.component';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { InfoPageComponent } from './pages/info-page/info-page.component';
     EditPageComponent,
     CardsComponent,
     SearchPageComponent,
-    InfoPageComponent
+    InfoPageComponent,
+    FavoritosPageComponent
   ],
   imports: [
     CommonModule,

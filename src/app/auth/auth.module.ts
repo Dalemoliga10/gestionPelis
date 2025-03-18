@@ -6,21 +6,24 @@ import { AuthRoutingModule } from './auth-routing.module';
 import { RouterModule } from '@angular/router';
 import { LayoutPageComponent } from './pages/layout-page/layout-page.component';
 import { MaterialModule } from '../material/material.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NewUserPageComponent } from './pages/new-user-page/new-user-page.component';
 
 
 @NgModule({
   declarations: [
     LoginCorreoComponent,
     LoginPasswdComponent,
-    LayoutPageComponent
+    LayoutPageComponent,
+    NewUserPageComponent
   ],
   imports: [
     CommonModule,
     AuthRoutingModule,
     RouterModule,
     MaterialModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class AuthModule { }

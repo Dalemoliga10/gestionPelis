@@ -38,5 +38,9 @@ export class InfoPageComponent {
       console.error('Error al obtener los detalles de la película', error);
     });  }
 
+    anadirFavoritos(){
+      console.log("En construccion");
+
+    }
 
 }

@@ -1,0 +1,62 @@
+<div class="container mt-4">
+  <div class="d-flex align-items-center mb-3">
+    <a routerLink="/tu-ruta" class="me-3 text-decoration-none text-dark">
+      <i class="bi bi-arrow-left fs-4"></i>
+    </a>
+    <h2 class="text-center flex-grow-1">Añadir Usuario</h2>
+  </div>
+
+  <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+
+    <div class="form-group mb-4">
+      <label for="nombre" class="text-center w-100">Nombre</label>
+      <input type="text" id="nombre" formControlName="nombre" class="form-control">
+      <small class="text-danger" *ngIf="userForm.get('nombre')?.invalid && userForm.get('nombre')?.touched">
+        El nombre es obligatorio y debe tener al menos 3 caracteres.
+      </small>
+    </div>
+
+    <div class="form-group mb-4">
+      <label for="apellidos" class="text-center w-100">Apellido</label>
+      <input type="text" id="apellidos" formControlName="apellidos" class="form-control">
+      <small class="text-danger" *ngIf="userForm.get('apellidos')?.invalid && userForm.get('apellidos')?.touched">
+        Introduce un apellido válido.
+      </small>
+    </div>
+
+    <div class="form-group mb-4">
+      <label for="rol" class="text-center w-100">Rol</label>
+      <select id="rol" formControlName="rol" class="form-control">
+        <option value="user">User</option>
+      </select>
+      <small class="text-danger" *ngIf="userForm.get('rol')?.invalid && userForm.get('rol')?.touched">
+        El rol es obligatorio.
+      </small>
+    </div>
+
+    <div class="form-group mb-4">
+      <label for="correo" class="text-center w-100">Correo</label>
+      <input type="email" id="correo" formControlName="correo" class="form-control">
+      <small class="text-danger" *ngIf="userForm.get('correo')?.invalid && userForm.get('correo')?.touched">
+        Introduce un correo válido.
+      </small>
+    </div>
+
+    <div class="form-group mb-4">
+      <label for="contrasena" class="text-center w-100">Contraseña</label>
+      <input type="password" id="contrasena" formControlName="contrasena" class="form-control">
+      <small class="text-danger" *ngIf="userForm.get('contrasena')?.invalid && userForm.get('contrasena')?.touched">
+        La contraseña debe tener al menos 6 caracteres.
+      </small>
+    </div>
+
+    <div class="text-center mt-3">
+      <button type="submit" class="btn btn-success btn-block" [disabled]="userForm.invalid">Añadir Usuario</button>
+    </div>
+  </form>
+
+  <button mat-button routerLink="/auth/loginCorreo" class="text-dark">
+    <mat-icon class="text-dark">arrow_back</mat-icon> Volver al login
+  </button>
+
+</div>

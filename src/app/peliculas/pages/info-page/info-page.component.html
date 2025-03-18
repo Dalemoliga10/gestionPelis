@@ -11,8 +11,11 @@
       <p><strong>Popularidad:</strong> {{ PeliculaDetails.popularity }}</p>
       <p><strong>Puntaje:</strong> {{ PeliculaDetails.vote_average }} / 10 ({{ PeliculaDetails.vote_count }} votos)</p>
       <p><strong>Sinopsis:</strong> {{ PeliculaDetails.overview }}</p>
+      <button mat-button (click)="anadirFavoritos()">
+        <mat-icon>star</mat-icon> Añadir a favoritos
+      </button>
     </div>
-    <button mat-button color="accent" routerLink="/peliculas/search">
+    <button mat-button routerLink="/peliculas/search">
       <mat-icon>arrow_back</mat-icon> Volver al buscador
     </button>
   </div>

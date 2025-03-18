@@ -7,6 +7,7 @@ import { NewPageComponent } from './pages/new-page/new-page.component';
 import { EditPageComponent } from './pages/edit-page/edit-page.component';
 import { SearchPageComponent } from './pages/search-page/search-page.component';
 import { InfoPageComponent } from './pages/info-page/info-page.component';
+import { FavoritosPageComponent } from './pages/favoritos-page/favoritos-page.component';
 
 //Asi creamos rutas, añadiendo en el Routes
 const routes: Routes = [
@@ -20,7 +21,8 @@ const routes: Routes = [
       {path: 'new', component: NewPageComponent},
       { path: 'search', component: SearchPageComponent },
       { path: 'edit/:id', component: EditPageComponent },
-      { path: 'detalle/:id', component: InfoPageComponent }, // Ruta para los detalles de la película
+      { path: 'detalle/:id', component: InfoPageComponent },
+      { path: 'favoritos', component: FavoritosPageComponent},
       {path: '**', redirectTo: "listaPeli"}
     ]
 
