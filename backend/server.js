@@ -5,6 +5,7 @@ const dotenv = require('dotenv');
 const cors = require('cors');  // Importar cors
 dotenv.config();
 app.use(express.json());
+const crypto = require('crypto');
 
 // Usar cors para permitir todas las solicitudes (deshabilitar restricciones CORS)
 app.use(cors({
@@ -101,6 +102,7 @@ app.get('/api/passwd', (req, res) => {
   });
 });
 
+
 //Para el crud: Obtener todos los usuarios
 app.get('/usuarios/todos', (req, res) => {
   const query = 'SELECT * FROM usuarios';
@@ -161,6 +163,33 @@ app.post('/api/usuarios', (req, res) => {
   });
 });
 
+// Ruta para agregar un token al usuario
+app.put('/agregarToken/id', (req, res) => {
+  console.log("hola holita token")
+  const id = req.query.id;
+  token = generarToken()
+
+  const values = [
+    token,
+    id_usuario
+  ];
+
+  // Consulta SQL
+  const query = `
+  UPDATE usuarios
+  SET token = ?
+  WHERE id_usuario = ?;
+  `;
+
+  // Ejecutar la consulta con los valores
+  db.execute(query, values, (err, result) => {
+    if (err) {
+      console.log('Error al agregar token:', err);
+      return res.status(500).json({ message: 'Error al agregar token', error: err });
+    }
+    res.status(201).json({ message: 'token agregado con éxito', result });
+  });
+});
 
 // Endpoint para modificar un usuario por id
 app.put('/api/usuarios/id', (req, res) => {
@@ -250,7 +279,6 @@ app.delete('/favoritos/eliminar', (req, res) => {
   });
 
 
-
 // favoritos: Comprueba si la película ya está añadida a favoritos
 app.get('/favoritos/comprobar', (req, res) => {
   const { id_usuario, id_pelicula } = req.query; // Obtener los parámetros de la query string
@@ -277,7 +305,9 @@ app.get('/favoritos/comprobar', (req, res) => {
   });
 });
 
-
+function generarToken() {
+  return crypto.randomBytes(16).toString('hex')
+}
 
 // Iniciar el servidor
 app.listen(3000, () => {
