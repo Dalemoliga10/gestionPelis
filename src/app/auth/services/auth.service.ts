@@ -3,6 +3,7 @@ import { Usuario } from '../interfaces/user.interface';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map, Observable, of, tap, throwError } from 'rxjs';
 import { User } from 'src/app/peliculas/interfaces/user.interface';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class AuthService {
   private baseUrl = "localhost:3000";
   private Usuario?: Usuario;
 
-  constructor(public httpClient: HttpClient) { }
+  constructor(public httpClient: HttpClient, private router: Router) { }
 
   //Llama a la api, añadiendo el correo a buscar en la bd
   pruebaCorreo(email: string): Observable<boolean> {
@@ -47,28 +48,36 @@ export class AuthService {
       );
   }
 
-  llamadaToken(passwd: string): Observable<User> {
+  llamadaToken(): void {
     const idUsuario = localStorage.getItem("id");
 
-    // Creamos el objeto que contiene la información necesaria para actualizar el token
-    const body = { token: passwd };
+    if (!idUsuario) {
+        console.error("No se encontró el ID de usuario en localStorage");
+        return;
+    }
 
-    // Realizamos la solicitud PUT para actualizar el token
-    console.log("llamada a agregarToken");
+    console.log("Llamada a agregarToken con id", idUsuario);
 
-    return this.httpClient.put<User>(`http://localhot:3000/aaaa`, {})
-      .pipe(
-        map((Usuario: User) => {
-          console.log("Token actualizado con éxito", Usuario);
-          localStorage.setItem("token", Usuario.token!)
-          return Usuario; // Devuelve el usuario con el token actualizado
-        }),
-        catchError(err => {
-          console.log("Error al crear token", err);
-          return throwError("Error al actualizar el token"); // Lanza un error si algo falla
-        })
-      );
-  }
+    this.httpClient.put<{ token: string }>(`http://localhost:3000/api/agregarToken?id=${idUsuario}`, {})
+        .subscribe({
+            next: response => {
+                console.log("Respuesta recibida:", response);
+                if (response.token) {
+                    localStorage.setItem("token", response.token);
+                    console.log("Token guardado en localStorage:", response.token);
+
+                    this.router.navigate(['/peliculas/listaPeli'])
+                } else {
+                    console.error("La respuesta no contiene un token.");
+                }
+            },
+            error: err => {
+                console.error("Error en la solicitud:", err);
+            }
+        });
+}
+
+
 
 
   logout() {
