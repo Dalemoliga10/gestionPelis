@@ -32,9 +32,10 @@ export class AuthService {
   pruebaPasswd(passwd: string): Observable<boolean> {
     return this.httpClient.get<Usuario>(`/api/passwd?email=${localStorage.getItem("email")}&passwd=${passwd}`)
       .pipe(
-        map(Usuario => { //Si encuentra usuario, recoge en localStorage el email y el token
-          localStorage.setItem('token', Usuario.token);
+        map(Usuario => { //Si encuentra usuario, recoge en localStorage el email y genera el token
+          localStorage.setItem('token', this.generarToken());
           localStorage.setItem('rol', Usuario.rol)
+          localStorage.setItem('id', Usuario.id_usuario.toString())
           return !!Usuario; // Devuelve true si encontró usuario, false si no
         }),
         catchError(err => {
@@ -44,24 +45,24 @@ export class AuthService {
       );
   }
 
+  generarToken() {
+    const array = new Uint8Array(16);
+    crypto.getRandomValues(array);
+    return Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('');
+  }
+
   logout() {
     localStorage.clear()
   }
 
-
   checkAutentication(): Observable<boolean>{
-    if(!localStorage.getItem('token')){
-
-      return of(false);
-    }
     const token = localStorage.getItem('token');
 
-    return this.httpClient.get<Usuario>(`${this.baseUrl}/api/usuarios/${token}`)
-    .pipe(
-      tap(user => this.Usuario = user),
-      map(user => !!user && user.token === token), // Compara el token recibido con el esperado
-      catchError(err => of(false))
-    );
+    if (!token) {
+      return of(false); // Retorna un observable con `false` si no hay token
+    }else{
+      return of(true)
+    }
   }
 
 }

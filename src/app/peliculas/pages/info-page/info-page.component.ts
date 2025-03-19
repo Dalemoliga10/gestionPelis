@@ -38,8 +38,20 @@ export class InfoPageComponent {
       console.error('Error al obtener los detalles de la película', error);
     });  }
 
-    anadirFavoritos(){
-      console.log("En construccion");
+    anadirFavoritos(id_peli:number){
+      const body = {
+        id_usuario: localStorage.getItem("id"), // Usuario actual
+        id_pelicula: id_peli   // ID de la película
+      };
+
+      this.http.post("http://localhost:3000/favoritos/anadir", body).subscribe({
+        next: (response) => {
+          console.log('Película añadida a favoritos:', response);
+        },
+        error: (error) => {
+          console.error('Error al añadir a favoritos:', error);
+        }
+      });
 
     }
 

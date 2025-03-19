@@ -11,7 +11,7 @@
       <p><strong>Popularidad:</strong> {{ PeliculaDetails.popularity }}</p>
       <p><strong>Puntaje:</strong> {{ PeliculaDetails.vote_average }} / 10 ({{ PeliculaDetails.vote_count }} votos)</p>
       <p><strong>Sinopsis:</strong> {{ PeliculaDetails.overview }}</p>
-      <button mat-button (click)="anadirFavoritos()">
+      <button mat-button (click)="anadirFavoritos(PeliculaDetails.id)">
         <mat-icon>star</mat-icon> Añadir a favoritos
       </button>
     </div>

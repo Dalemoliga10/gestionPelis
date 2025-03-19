@@ -8,12 +8,12 @@ const routes: Routes = [
   {
     path : 'auth',
     loadChildren: () => import('./auth/auth.module').then(m=>m.AuthModule),
-    // canMatch: [canMatchGuardPublic] Problemas de cors
+    canMatch: [canMatchGuardPublic]
   },
   {
     path: 'peliculas',
     loadChildren: () => import('./peliculas/peliculas.module').then(m => m.PeliculasModule),
-    // canMatch: [canMatchGuard] Problemas de cors
+    canMatch: [canMatchGuard]
   },
   {
     path:'',

@@ -6,5 +6,4 @@ export interface Usuario{
   rol: string;
   correo: string;
   contrasena: string;
-  token:string;
 }

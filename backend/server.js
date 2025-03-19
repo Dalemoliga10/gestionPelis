@@ -3,7 +3,6 @@ const app = express();
 const mysql = require('mysql2');
 const dotenv = require('dotenv');
 const cors = require('cors');  // Importar cors
-const crypto = require('crypto');
 dotenv.config();
 app.use(express.json());
 
@@ -137,7 +136,6 @@ app.delete('/api/usuarios/:id', (req, res) => {
 app.post('/api/usuarios', (req, res) => {
   const { id_usuario, nombre, apellidos, rol, correo, contrasena } = req.body;
 
-  // Reemplazar undefined con null
   const values = [
     id_usuario !== undefined ? id_usuario : 0,
     nombre !== undefined ? nombre : "",
@@ -145,12 +143,11 @@ app.post('/api/usuarios', (req, res) => {
     rol !== undefined ? rol : "",
     correo !== undefined ? correo : "",
     contrasena !== undefined ? contrasena : "123",
-    crypto.randomBytes(16).toString('hex') // Generamos el token
   ];
 
   // Consulta SQL
   const query = `
-    INSERT INTO usuarios (id_usuario, nombre, apellidos, rol, correo, contrasena, token)
+    INSERT INTO usuarios (id_usuario, nombre, apellidos, rol, correo, contrasena)
     VALUES (?, ?, ?, ?, ?, ?, ?);
   `;
 
@@ -193,25 +190,46 @@ app.put('/api/usuarios/id', (req, res) => {
   });
 });
 
-// Endpoint para obtener un usuario por id
-app.get('/api/usuarios/:token', (req, res) => {
-  const id = req.params.token;  // Obtener el token desde la URL
 
-  const query = 'SELECT * FROM usuarios WHERE token = ?';
+
+//Para el favoritos, obtener los id favoritos de ese usuario
+app.get('/favoritos/leer/:id', (req, res) => {
+  const { id } = req.params;  // Obtenemos el id del parámetro de la URL
+
+  const query = 'SELECT id_pelicula FROM pelisFavoritas WHERE id_usuario = ?';
 
   db.query(query, [id], (err, results) => {
     if (err) {
       return res.status(500).json({ message: 'Error en la base de datos' });
     }
 
-    if (results.length > 0) {
-      console.log("envio del roken")
-      return res.status(200).json(results[0]);  // Devuelve el usuario encontrado
-    } else {
-      return res.status(404).json({ message: 'Usuario no encontrado' });
-    }
+    // Extraemos solo los valores de id_pelicula en un array
+    const peliculas = results.map(row => row.id_pelicula);
+
+    return res.status(200).json(peliculas); // Devuelve todos los usuarios encontrados
   });
 });
+
+//Para el favoritos: Añadir peli a favoritos
+app.post('/favoritos/anadir', (req, res) => {
+  const { id_usuario, id_pelicula } = req.body; // Obtener datos desde el cuerpo de la solicitud
+
+  if (!id_usuario || !id_pelicula) {
+    return res.status(400).json({ message: 'Faltan datos requeridos' });
+  }
+
+  const query = 'INSERT INTO pelisFavoritas (id_usuario, id_pelicula) VALUES (?, ?)';
+
+  db.query(query, [id_usuario, id_pelicula], (err, result) => {
+    if (err) {
+      return res.status(500).json({ message: 'Error en la base de datos', error: err });
+    }
+
+    return res.status(201).json({ message: 'Película añadida a favoritos', id: result.insertId });
+  });
+});
+
+
 
 // Iniciar el servidor
 app.listen(3000, () => {

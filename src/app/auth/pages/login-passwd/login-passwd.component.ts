@@ -18,7 +18,7 @@ export class LoginPasswdComponent {
     this.authService.pruebaPasswd(this.passwd)
       .subscribe(existe => {
         if (existe) {
-          // Si existe, muestra el mensaje
+          // Si existe, crea y añade token
           console.log("FUNCIONA, ERES LIBRE");
           this.router.navigate(['/peliculas/listaPeli']);
         } else {

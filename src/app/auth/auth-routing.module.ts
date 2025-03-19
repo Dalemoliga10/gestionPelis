@@ -16,7 +16,6 @@ const routes: Routes = [
       {path: 'loginPasswd', component: LoginPasswdComponent},
       {path: 'new-account', component: NewUserPageComponent},
       {path: '**', redirectTo: "loginCorreo"}
-
     ]
 
   }

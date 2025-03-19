@@ -5,5 +5,4 @@ export interface User{
   rol: string;
   correo: string;
   contrasena: string;
-  token?:string;
 }
