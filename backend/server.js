@@ -164,30 +164,34 @@ app.post('/api/usuarios', (req, res) => {
 });
 
 // Ruta para agregar un token al usuario
-app.put('/agregarToken/id', (req, res) => {
-  console.log("hola holita token")
+app.put('/api/agregarToken', (req, res) => {
   const id = req.query.id;
-  token = generarToken()
 
-  const values = [
-    token,
-    id_usuario
-  ];
+  if (!id) {
+      return res.status(400).json({ message: "ID de usuario es obligatorio" });
+  }
 
-  // Consulta SQL
+  console.log("Solicitud recibida para agregar token con ID:", id);
+
+  const token = generarToken(); // Genera un nuevo token
+
   const query = `
   UPDATE usuarios
   SET token = ?
   WHERE id_usuario = ?;
   `;
 
-  // Ejecutar la consulta con los valores
-  db.execute(query, values, (err, result) => {
-    if (err) {
-      console.log('Error al agregar token:', err);
-      return res.status(500).json({ message: 'Error al agregar token', error: err });
-    }
-    res.status(201).json({ message: 'token agregado con éxito', result });
+  db.execute(query, [token, id], (err, result) => {
+      if (err) {
+          console.error('Error al agregar token:', err);
+          return res.status(500).json({ message: 'Error al agregar token', error: err });
+      }
+
+      if (result.affectedRows > 0) {
+          return res.status(200).json({ token }); // Devuelve solo el token generado
+      } else {
+          return res.status(404).json({ message: 'Usuario no encontrado' });
+      }
   });
 });
 

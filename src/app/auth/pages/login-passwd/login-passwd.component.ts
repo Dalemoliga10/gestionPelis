@@ -33,6 +33,6 @@ export class LoginPasswdComponent {
   generateToken(){
       console.log("FUNCIONA, ERES LIBRE");
 
-      this.authService.llamadaToken(localStorage.getItem("id")!)
+      this.authService.llamadaToken();
   }
 }
