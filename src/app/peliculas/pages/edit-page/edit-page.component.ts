@@ -55,8 +55,6 @@ export class EditPageComponent implements OnInit {
   }
 
 // Método para manejar el envío del formulario
-// Método para manejar el envío del formulario
-// Método para manejar el envío del formulario
 onSubmit(): void {
   if (this.userForm.valid) {
     const updatedUser = this.userForm.value;

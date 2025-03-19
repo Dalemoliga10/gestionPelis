@@ -12,19 +12,27 @@ export class LoginPasswdComponent {
     private router: Router
   ){}
 
-  passwd = ''
+  passwd = '';
+  comprobacionPasswdCompletado: boolean = false
 
   onLoginPasswd() {
     this.authService.pruebaPasswd(this.passwd)
       .subscribe(existe => {
         if (existe) {
           // Si existe, crea y añade token
-          console.log("FUNCIONA, ERES LIBRE");
-          this.router.navigate(['/peliculas/listaPeli']);
+          console.log("Llamada a generar token");
+          this.generateToken()
+
         } else {
           // Si no existe, muestra otro mensaje si es necesario
           console.log("Usuario no encontrado.");
         }
       });
+  }
+
+  generateToken(){
+      console.log("FUNCIONA, ERES LIBRE");
+
+      this.authService.llamadaToken(localStorage.getItem("id")!)
   }
 }

@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Pelicula } from '../../interfaces/pelicula.interface';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-info-page',
@@ -16,7 +17,9 @@ export class InfoPageComponent {
   constructor(
     private activatedRoute: ActivatedRoute, // Para obtener el parámetro de la URL
     private http: HttpClient, // Para hacer la llamada a la API
-    private router: Router
+    private router: Router,
+    private snackbar: MatSnackBar,
+
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -37,6 +40,8 @@ export class InfoPageComponent {
   // Para almacenar los detalles de la película
   PeliculaDetails: Pelicula | undefined;
 
+  // Valor por defecto
+
   //Llama a la api para sacar los datos de esa pelicula en específico
   SacardatosPelicula() {
     const url = `https://api.themoviedb.org/3/movie/${this.PeliculaId}?api_key=${this.apiKey}`;
@@ -50,20 +55,28 @@ export class InfoPageComponent {
 
   //Llama a la api para añadir la pelicula a favoritos, usa el id del localStorage
   anadirFavoritos(id_peli:number){
-    const body = {
-      id_usuario: localStorage.getItem("id"), // Usuario actual
-      id_pelicula: id_peli   // ID de la película
-    };
+     if(this.favorito){
+      console.log("Pelicula ya en favoritos");
+     }else{
+      const body = {
+        id_usuario: localStorage.getItem("id"), // Usuario actual
+        id_pelicula: id_peli   // ID de la película
+      };
 
-    this.http.post("http://localhost:3000/favoritos/anadir", body).subscribe({
-      next: (response) => {
-        console.log('Película añadida a favoritos:', response);
-        // this.router.navigate(['/peliculas/favoritos']); No he considerado importante cambiar al meter en favoritos
-      },
-      error: (error) => {
-        console.error('Error al añadir a favoritos:', error);
-      }
-    });
+      this.http.post("http://localhost:3000/favoritos/anadir", body).subscribe({
+        next: (response) => {
+          console.log('Película añadida a favoritos:', response);
+          this.showSnackbar(`Pelicula añadida a favoritos!`)
+          this.favorito = true;
+          // this.router.navigate(['/peliculas/favoritos']); No he considerado importante cambiar al meter en favoritos
+        },
+        error: (error) => {
+          console.error('Error al añadir a favoritos:', error);
+        }
+      });
+     }
+
+
   }
 
   //Elimina de favoritos
@@ -78,7 +91,8 @@ export class InfoPageComponent {
       response => {
         //Si todo sale bien, al borrar una peli vuelvo a favoritos (Se supone que ya no esta en favoritos)
         console.log('Película eliminada de favoritos', response);
-        this.router.navigate(['/peliculas/favoritos']);
+        this.showSnackbar(`Pelicula eliminada de favoritos!`)
+        this.favorito =false;
       },
       error => {
         console.error('Error al eliminar la película', error);
@@ -86,9 +100,15 @@ export class InfoPageComponent {
     );
   }
 
+  private showSnackbar(message:string):void{
+    this.snackbar.open(message, "ok",{
+      duration:2500
+    })
+  }
+
   //Comprueba si la película ya estña en favoritos, usa la api
   async verSiEsYaFavorito(id_usuario: string, id_pelicula: number): Promise<boolean> {
-    let favorito: boolean = false;  // Valor por defecto
+    let favorito : boolean = false;
 
     try {
       const response = await fetch(`http://localhost:3000/favoritos/comprobar?id_usuario=${id_usuario}&id_pelicula=${id_pelicula}`);
