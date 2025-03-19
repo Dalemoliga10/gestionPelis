@@ -229,6 +229,54 @@ app.post('/favoritos/anadir', (req, res) => {
   });
 });
 
+// favoritos: Elimina pelicula del favoritos
+app.delete('/favoritos/eliminar', (req, res) => {
+  const { id_usuario, id_pelicula } = req.body; // Obtener datos desde el cuerpo de la solicitud
+
+  if (!id_usuario || !id_pelicula) {
+    return res.status(400).json({ message: 'Faltan datos requeridos' });
+  }
+
+    // Si la película está en favoritos, eliminarla
+    const deleteQuery = 'DELETE FROM pelisFavoritas WHERE id_usuario = ? AND id_pelicula = ?';
+
+    db.query(deleteQuery, [id_usuario, id_pelicula], (err, result) => {
+      if (err) {
+        return res.status(500).json({ message: 'Error al eliminar la película de favoritos', error: err });
+      }
+
+      return res.status(200).json({ message: 'Película eliminada de favoritos' });
+    });
+  });
+
+
+
+// favoritos: Comprueba si la película ya está añadida a favoritos
+app.get('/favoritos/comprobar', (req, res) => {
+  const { id_usuario, id_pelicula } = req.query; // Obtener los parámetros de la query string
+
+  if (!id_usuario || !id_pelicula) {
+    return res.status(400).json({ message: 'Faltan datos requeridos' });
+  }
+
+  // Comprobar si la película ya está en los favoritos
+  const checkQuery = 'SELECT * FROM pelisFavoritas WHERE id_usuario = ? AND id_pelicula = ?';
+
+  db.query(checkQuery, [id_usuario, id_pelicula], (err, result) => {
+    if (err) {
+      return res.status(500).json({ message: 'Error en la base de datos', error: err });
+    }
+
+    if (result.length > 0) {
+      // Si la película ya está en favoritos
+      return res.status(200).json({ message: 'La película ya está en tus favoritos' });
+    }
+
+    // Si la película no está en favoritos
+    return res.status(404).json({ message: 'La película no está en tus favoritos' });
+  });
+});
+
 
 
 // Iniciar el servidor
