@@ -37,15 +37,15 @@ export class CrudPageComponent {
   });
 
 
-  onCreateHero() {
+  onCreateUser() {
     this.router.navigate(['/peliculas/new'])
   }
 
-  onEditHero(id: number) {
+  onEditUser(id: number) {
     this.router.navigate(['/peliculas/edit/' + id])
   }
 
-  public onDeleteHero( idEliminar: number){
+  public onDeleteUser( idEliminar: number){
 
       //Confirmacion
       const dialogRef = this.dialog.open(ConfirmDialogComponent,

@@ -23,14 +23,14 @@
         <td>{{ usuario.contrasena }}</td>
         <!-- Columna de acciones con 2 botones -->
         <td>
-          <button class="btn btn-primary btn-sm mr-2" (click)="onEditHero(usuario.id_usuario)">Editar</button>
-          <button class="btn btn-danger btn-sm" (click)="onDeleteHero(usuario.id_usuario)">Eliminar</button>
+          <button class="btn btn-primary btn-sm mr-2" (click)="onEditUser(usuario.id_usuario)">Editar</button>
+          <button class="btn btn-danger btn-sm" (click)="onDeleteUser(usuario.id_usuario)">Eliminar</button>
         </td>
       </tr>
     </tbody>
   </table>
 
   <div class="text-center mb-4">
-    <button class="btn btn-success btn-sm" (click)="onCreateHero()">Añadir</button>
+    <button class="btn btn-success btn-sm" (click)="onCreateUser()">Añadir</button>
   </div>
 </div>

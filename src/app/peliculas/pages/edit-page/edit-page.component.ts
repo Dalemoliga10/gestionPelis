@@ -66,8 +66,7 @@ onSubmit(): void {
       .subscribe({
         next: (response) => {
           console.log('Usuario actualizado:', response);
-          this.router.navigate(['/peliculas/new'])
-
+          this.router.navigate(['/peliculas/crud']) //Volver al crud
         },
         error: (error) => {
           console.error('Error al actualizar usuario:', error);

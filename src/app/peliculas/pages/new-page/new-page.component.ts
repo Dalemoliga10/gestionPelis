@@ -38,6 +38,7 @@ export class NewPageComponent {
         next: (response) => {
           console.log('Usuario añadido:', response);
           this.userForm.reset(); // Limpiar formulario
+          this.router.navigate(['/peliculas/crud']) //Volver al crud
         },
         error: (error) => {
           console.error('Error al añadir usuario', error);

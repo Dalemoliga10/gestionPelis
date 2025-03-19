@@ -148,7 +148,7 @@ app.post('/api/usuarios', (req, res) => {
   // Consulta SQL
   const query = `
     INSERT INTO usuarios (id_usuario, nombre, apellidos, rol, correo, contrasena)
-    VALUES (?, ?, ?, ?, ?, ?, ?);
+    VALUES (?, ?, ?, ?, ?, ?);
   `;
 
   // Ejecutar la consulta con los valores
